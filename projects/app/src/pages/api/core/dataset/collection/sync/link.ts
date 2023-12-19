@@ -4,7 +4,6 @@ import { connectToDatabase } from '@/service/mongo';
 import { authDatasetCollection } from '@fastgpt/service/support/permission/auth/dataset';
 import { loadingOneChunkCollection } from '@fastgpt/service/core/dataset/collection/utils';
 import { delCollectionRelevantData } from '@fastgpt/service/core/dataset/data/controller';
-import { createOneCollection } from '@fastgpt/service/core/dataset/collection/controller';
 import { MongoDatasetCollection } from '@fastgpt/service/core/dataset/collection/schema';
 import { DatasetCollectionTypeEnum } from '@fastgpt/global/core/dataset/constant';
 import { DatasetErrEnum } from '@fastgpt/global/common/error/code/dataset';
@@ -69,13 +68,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     });
 
     // delete old collection
-    await Promise.all([
-      delCollectionRelevantData({
-        collectionIds: [collection._id],
-        fileIds: collection.fileId ? [collection.fileId] : []
-      }),
-      MongoDatasetCollection.findByIdAndRemove(collection._id)
-    ]);
+    await delCollectionRelevantData({
+      collectionIds: [collection._id],
+      fileIds: collection.fileId ? [collection.fileId] : []
+    });
 
     jsonRes(res);
   } catch (err) {

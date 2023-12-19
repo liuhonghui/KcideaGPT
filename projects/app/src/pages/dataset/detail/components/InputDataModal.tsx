@@ -313,7 +313,7 @@ const InputDataModal = ({
                         borderColor={'transparent'}
                         px={0}
                         _focus={{
-                          borderColor: 'myBlue.400',
+                          borderColor: 'blue.400',
                           px: 3
                         }}
                         placeholder={t('dataset.data.Index Placeholder')}
@@ -332,7 +332,7 @@ const InputDataModal = ({
                   border={theme.borders.base}
                   cursor={'pointer'}
                   _hover={{
-                    bg: 'myBlue.100'
+                    bg: 'blue.50'
                   }}
                   minH={'100px'}
                   onClick={() =>
@@ -408,7 +408,7 @@ export function RawSourceText({
                   await getFileAndOpen(sourceId as string);
                 } catch (error) {
                   toast({
-                    title: getErrText(error, '获取文件地址失败'),
+                    title: t(getErrText(error, 'error.fileNotFound')),
                     status: 'error'
                   });
                 }

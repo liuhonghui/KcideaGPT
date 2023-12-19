@@ -53,7 +53,7 @@ function simpleChatTemplate({
           key: 'userChatInput',
           type: 'systemInput',
           label: '用户问题',
-          connected: true
+          connected: false
         }
       ],
       outputs: [
@@ -66,47 +66,6 @@ function simpleChatTemplate({
             {
               moduleId: 'chatModule',
               key: 'userChatInput'
-            }
-          ]
-        }
-      ]
-    },
-    {
-      moduleId: 'history',
-      name: '聊天记录',
-      avatar: '/imgs/module/history.png',
-      flowType: 'historyNode',
-      position: {
-        x: 452.5466249541586,
-        y: 1276.3930310334215
-      },
-      inputs: [
-        {
-          key: 'maxContext',
-          type: 'numberInput',
-          label: '最长记录数',
-          value: 10,
-          min: 0,
-          max: 50,
-          connected: true
-        },
-        {
-          key: 'history',
-          type: 'hidden',
-          label: '聊天记录',
-          connected: true
-        }
-      ],
-      outputs: [
-        {
-          key: 'history',
-          label: '聊天记录',
-          valueType: 'chatHistory',
-          type: 'source',
-          targets: [
-            {
-              moduleId: 'chatModule',
-              key: 'history'
             }
           ]
         }
@@ -136,7 +95,7 @@ function simpleChatTemplate({
           label: '对话模型',
           required: true,
           value: formData.aiSettings.model,
-          connected: true
+          connected: false
         },
         {
           key: 'temperature',
@@ -156,7 +115,7 @@ function simpleChatTemplate({
               value: 10
             }
           ],
-          connected: true
+          connected: false
         },
         {
           key: 'maxToken',
@@ -176,7 +135,7 @@ function simpleChatTemplate({
               value: 4000
             }
           ],
-          connected: true
+          connected: false
         },
         {
           key: 'isResponseAnswerText',
@@ -184,23 +143,21 @@ function simpleChatTemplate({
           label: '返回AI内容',
           valueType: 'boolean',
           value: true,
-          connected: true
+          connected: false
         },
         {
           key: 'quoteTemplate',
           type: 'hidden',
           label: '引用内容模板',
           valueType: 'string',
-          value: '',
-          connected: true
+          connected: false
         },
         {
           key: 'quotePrompt',
           type: 'hidden',
           label: '引用内容提示词',
           valueType: 'string',
-          value: '',
-          connected: true
+          connected: false
         },
         {
           key: 'aiSettings',
@@ -219,7 +176,7 @@ function simpleChatTemplate({
           placeholder:
             '模型固定的引导词，通过调整该内容，可以引导模型聊天方向。该内容会被固定在上下文的开头。可使用变量，例如 {{language}}',
           value: formData.aiSettings.systemPrompt,
-          connected: true
+          connected: false
         },
         {
           key: 'quoteQA',
@@ -234,7 +191,8 @@ function simpleChatTemplate({
           type: 'target',
           label: 'core.module.input.label.chat history',
           valueType: 'chatHistory',
-          connected: true
+          connected: false,
+          value: 8
         },
         {
           key: 'userChatInput',
@@ -319,47 +277,6 @@ function datasetTemplate({
       ]
     },
     {
-      moduleId: 'history',
-      name: '聊天记录',
-      avatar: '/imgs/module/history.png',
-      flowType: 'historyNode',
-      position: {
-        x: 452.5466249541586,
-        y: 1276.3930310334215
-      },
-      inputs: [
-        {
-          key: 'maxContext',
-          type: 'numberInput',
-          label: '最长记录数',
-          value: 6,
-          min: 0,
-          max: 50,
-          connected: true
-        },
-        {
-          key: 'history',
-          type: 'hidden',
-          label: '聊天记录',
-          connected: true
-        }
-      ],
-      outputs: [
-        {
-          key: 'history',
-          label: '聊天记录',
-          valueType: 'chatHistory',
-          type: 'source',
-          targets: [
-            {
-              moduleId: 'chatModule',
-              key: 'history'
-            }
-          ]
-        }
-      ]
-    },
-    {
       moduleId: 'datasetSearch',
       name: '知识库搜索',
       avatar: '/imgs/module/db.png',
@@ -375,21 +292,21 @@ function datasetTemplate({
           value: formData.dataset.datasets,
           type: FlowNodeInputTypeEnum.custom,
           label: '关联的知识库',
-          connected: true
+          connected: false
         },
         {
           key: 'similarity',
-          value: 0.4,
+          value: 0.1,
           type: FlowNodeInputTypeEnum.slider,
           label: '相关度',
-          connected: true
+          connected: false
         },
         {
           key: 'limit',
-          value: 8,
+          value: 2000,
           type: FlowNodeInputTypeEnum.slider,
           label: '单次搜索上限',
-          connected: true
+          connected: false
         },
         {
           key: 'switch',
@@ -486,7 +403,7 @@ function datasetTemplate({
           label: '对话模型',
           required: true,
           value: formData.aiSettings.model,
-          connected: true
+          connected: false
         },
         {
           key: 'temperature',
@@ -506,7 +423,7 @@ function datasetTemplate({
               value: 10
             }
           ],
-          connected: true
+          connected: false
         },
         {
           key: 'maxToken',
@@ -526,7 +443,7 @@ function datasetTemplate({
               value: 4000
             }
           ],
-          connected: true
+          connected: false
         },
         {
           key: 'isResponseAnswerText',
@@ -534,23 +451,21 @@ function datasetTemplate({
           label: '返回AI内容',
           valueType: 'boolean',
           value: true,
-          connected: true
+          connected: false
         },
         {
           key: 'quoteTemplate',
           type: 'hidden',
           label: '引用内容模板',
           valueType: 'string',
-          value: '',
-          connected: true
+          connected: false
         },
         {
           key: 'quotePrompt',
           type: 'hidden',
           label: '引用内容提示词',
           valueType: 'string',
-          value: '',
-          connected: true
+          connected: false
         },
         {
           key: 'aiSettings',
@@ -569,7 +484,7 @@ function datasetTemplate({
           placeholder:
             '模型固定的引导词，通过调整该内容，可以引导模型聊天方向。该内容会被固定在上下文的开头。可使用变量，例如 {{language}}',
           value: formData.aiSettings.systemPrompt,
-          connected: true
+          connected: false
         },
         {
           key: 'quoteQA',
@@ -584,7 +499,8 @@ function datasetTemplate({
           type: 'target',
           label: 'core.module.input.label.chat history',
           valueType: 'chatHistory',
-          connected: true
+          connected: false,
+          value: 8
         },
         {
           key: 'userChatInput',

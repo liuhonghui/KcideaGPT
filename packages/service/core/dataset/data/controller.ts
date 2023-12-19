@@ -1,11 +1,11 @@
 import { MongoDatasetData } from './schema';
 import { deletePgDataById } from './pg';
 import { MongoDatasetTraining } from '../training/schema';
-import { delFileById } from '../../../common/file/gridfs/controller';
+import { delFileByFileIdList, delFileByMetadata } from '../../../common/file/gridfs/controller';
 import { BucketNameEnum } from '@fastgpt/global/common/file/constants';
 import { MongoDatasetCollection } from '../collection/schema';
-import { delDatasetFiles } from '../file/controller';
 import { delay } from '@fastgpt/global/common/system/utils';
+import { delImgByFileIdList } from '../../../common/file/image/controller';
 
 /* delete all data by datasetIds */
 export async function delDatasetRelevantData({ datasetIds }: { datasetIds: string[] }) {
@@ -16,20 +16,22 @@ export async function delDatasetRelevantData({ datasetIds }: { datasetIds: strin
     datasetId: { $in: datasetIds }
   });
 
-  // delete related files
-  await Promise.all(datasetIds.map((id) => delDatasetFiles({ datasetId: id })));
+  await delay(2000);
 
-  await delay(1000);
-
-  // delete pg data
-  await deletePgDataById(`dataset_id IN ('${datasetIds.join("','")}')`);
   // delete dataset.datas
   await MongoDatasetData.deleteMany({ datasetId: { $in: datasetIds } });
+  // delete pg data
+  await deletePgDataById(`dataset_id IN ('${datasetIds.join("','")}')`);
 
   // delete collections
   await MongoDatasetCollection.deleteMany({
     datasetId: { $in: datasetIds }
   });
+
+  // delete related files
+  await Promise.all(
+    datasetIds.map((id) => delFileByMetadata({ bucketName: BucketNameEnum.dataset, datasetId: id }))
+  );
 }
 /**
  * delete all data by collectionIds
@@ -49,22 +51,26 @@ export async function delCollectionRelevantData({
     collectionId: { $in: collectionIds }
   });
 
-  // delete file
-  await Promise.all(
-    filterFileIds.map((fileId) => {
-      return delFileById({
-        bucketName: BucketNameEnum.dataset,
-        fileId
-      });
-    })
-  );
+  await delay(2000);
 
-  await delay(1000);
-
-  // delete pg data
-  await deletePgDataById(`collection_id IN ('${collectionIds.join("','")}')`);
   // delete dataset.datas
   await MongoDatasetData.deleteMany({ collectionId: { $in: collectionIds } });
+  // delete pg data
+  await deletePgDataById(`collection_id IN ('${collectionIds.join("','")}')`);
+
+  // delete collections
+  await MongoDatasetCollection.deleteMany({
+    _id: { $in: collectionIds }
+  });
+
+  // delete file and imgs
+  await Promise.all([
+    delImgByFileIdList(filterFileIds),
+    delFileByFileIdList({
+      bucketName: BucketNameEnum.dataset,
+      fileIdList: filterFileIds
+    })
+  ]);
 }
 /**
  * delete one data by mongoDataId

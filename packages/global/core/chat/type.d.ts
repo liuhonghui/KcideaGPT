@@ -38,7 +38,9 @@ export type ChatItemSchema = {
   time: Date;
   obj: `${ChatRoleEnum}`;
   value: string;
-  userFeedback?: string;
+  userGoodFeedback?: string;
+  userBadFeedback?: string;
+  customFeedbacks?: string[];
   adminFeedback?: AdminFbkType;
   [ModuleOutputKeyEnum.responseData]?: ChatHistoryItemResType[];
 };
@@ -56,7 +58,9 @@ export type ChatItemType = {
   dataId?: string;
   obj: ChatItemSchema['obj'];
   value: any;
-  userFeedback?: string;
+  userGoodFeedback?: string;
+  userBadFeedback?: string;
+  customFeedbacks?: ChatItemSchema['customFeedbacks'];
   adminFeedback?: ChatItemSchema['feedback'];
   [ModuleOutputKeyEnum.responseData]?: ChatHistoryItemResType[];
 };
@@ -81,12 +85,14 @@ export type ChatHistoryItemType = HistoryItemType & {
 
 /* ------- response data ------------ */
 export type moduleDispatchResType = {
+  // common
   moduleLogo?: string;
   price?: number;
   runningTime?: number;
   tokens?: number;
   model?: string;
   query?: string;
+  contextTotalLen?: number;
 
   // chat
   temperature?: number;
@@ -113,6 +119,12 @@ export type moduleDispatchResType = {
 
   // plugin output
   pluginOutput?: Record<string, any>;
+
+  // text editor
+  textOutput?: string;
+
+  // tf switch
+  tfSwitchResult?: boolean;
 };
 
 export type ChatHistoryItemResType = moduleDispatchResType & {

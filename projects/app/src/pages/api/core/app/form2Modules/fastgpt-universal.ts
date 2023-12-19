@@ -7,7 +7,7 @@ import { jsonRes } from '@fastgpt/service/common/response';
 import type { AppSimpleEditFormType } from '@fastgpt/global/core/app/type.d';
 import type { ModuleItemType } from '@fastgpt/global/core/module/type';
 import { FlowNodeInputTypeEnum, FlowNodeTypeEnum } from '@fastgpt/global/core/module/node/constant';
-import { ModuleDataTypeEnum } from '@fastgpt/global/core/module/constants';
+import { ModuleIOValueTypeEnum } from '@fastgpt/global/core/module/constants';
 import { ModuleInputKeyEnum } from '@fastgpt/global/core/module/constants';
 import type { FlowNodeInputItemType } from '@fastgpt/global/core/module/node/type.d';
 import { FormatForm2ModulesProps } from '@fastgpt/global/core/app/api';
@@ -39,49 +39,49 @@ function chatModelInput(formData: AppSimpleEditFormType): FlowNodeInputItemType[
       value: formData.aiSettings.model,
       type: 'custom',
       label: '对话模型',
-      connected: true
+      connected: false
     },
     {
       key: 'temperature',
       value: formData.aiSettings.temperature,
       type: 'slider',
       label: '温度',
-      connected: true
+      connected: false
     },
     {
       key: 'maxToken',
       value: formData.aiSettings.maxToken,
       type: 'custom',
       label: '回复上限',
-      connected: true
+      connected: false
     },
     {
       key: 'systemPrompt',
       value: formData.aiSettings.systemPrompt || '',
       type: 'textarea',
       label: '系统提示词',
-      connected: true
+      connected: false
     },
     {
       key: ModuleInputKeyEnum.aiChatIsResponseText,
       value: true,
       type: 'hidden',
       label: '返回AI内容',
-      connected: true
+      connected: false
     },
     {
       key: 'quoteTemplate',
       value: formData.aiSettings.quoteTemplate || '',
       type: 'hidden',
       label: '引用内容模板',
-      connected: true
+      connected: false
     },
     {
       key: 'quotePrompt',
       value: formData.aiSettings.quotePrompt || '',
       type: 'hidden',
       label: '引用内容提示词',
-      connected: true
+      connected: false
     },
     {
       key: 'switch',
@@ -90,16 +90,17 @@ function chatModelInput(formData: AppSimpleEditFormType): FlowNodeInputItemType[
       connected: formData.dataset.datasets.length > 0 && !!formData.dataset.searchEmptyText
     },
     {
+      key: 'history',
+      type: 'target',
+      label: 'core.module.input.label.chat history',
+      connected: false,
+      value: 6
+    },
+    {
       key: 'quoteQA',
       type: 'target',
       label: '引用内容',
       connected: formData.dataset.datasets.length > 0
-    },
-    {
-      key: 'history',
-      type: 'target',
-      label: '聊天记录',
-      connected: true
     },
     {
       key: 'userChatInput',
@@ -117,9 +118,9 @@ function simpleChatTemplate(formData: AppSimpleEditFormType): ModuleItemType[] {
       inputs: [
         {
           key: 'userChatInput',
-          connected: true,
+          connected: false,
           label: '用户问题',
-          type: 'target'
+          type: 'systemInput'
         }
       ],
       outputs: [
@@ -138,41 +139,6 @@ function simpleChatTemplate(formData: AppSimpleEditFormType): ModuleItemType[] {
         y: 1602.2698463081606
       },
       moduleId: 'userChatInput'
-    },
-    {
-      name: '聊天记录',
-      flowType: FlowNodeTypeEnum.historyNode,
-      inputs: [
-        {
-          key: 'maxContext',
-          value: 6,
-          connected: true,
-          type: 'numberInput',
-          label: '最长记录数'
-        },
-        {
-          key: 'history',
-          type: 'hidden',
-          label: '聊天记录',
-          connected: true
-        }
-      ],
-      outputs: [
-        {
-          key: 'history',
-          targets: [
-            {
-              moduleId: 'chatModule',
-              key: 'history'
-            }
-          ]
-        }
-      ],
-      position: {
-        x: 452.5466249541586,
-        y: 1276.3930310334215
-      },
-      moduleId: 'history'
     },
     {
       name: 'AI 对话',
@@ -213,8 +179,8 @@ function datasetTemplate(formData: AppSimpleEditFormType): ModuleItemType[] {
         {
           key: 'userChatInput',
           label: '用户问题',
-          type: 'target',
-          connected: true
+          type: 'systemInput',
+          connected: false
         }
       ],
       outputs: [
@@ -237,41 +203,6 @@ function datasetTemplate(formData: AppSimpleEditFormType): ModuleItemType[] {
         y: 1602.2698463081606
       },
       moduleId: 'userChatInput'
-    },
-    {
-      name: '聊天记录',
-      flowType: FlowNodeTypeEnum.historyNode,
-      inputs: [
-        {
-          key: 'maxContext',
-          value: 6,
-          connected: true,
-          type: 'numberInput',
-          label: '最长记录数'
-        },
-        {
-          key: 'history',
-          type: 'hidden',
-          label: '聊天记录',
-          connected: true
-        }
-      ],
-      outputs: [
-        {
-          key: 'history',
-          targets: [
-            {
-              moduleId: 'chatModule',
-              key: 'history'
-            }
-          ]
-        }
-      ],
-      position: {
-        x: 452.5466249541586,
-        y: 1276.3930310334215
-      },
-      moduleId: 'history'
     },
     {
       name: '知识库搜索',
@@ -386,9 +317,9 @@ function datasetTemplate(formData: AppSimpleEditFormType): ModuleItemType[] {
                 key: ModuleInputKeyEnum.answerText,
                 value: formData.dataset.searchEmptyText,
                 type: FlowNodeInputTypeEnum.textarea,
-                valueType: ModuleDataTypeEnum.string,
+                valueType: ModuleIOValueTypeEnum.string,
                 label: '回复的内容',
-                connected: true
+                connected: false
               }
             ],
             outputs: [],

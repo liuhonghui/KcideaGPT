@@ -8,11 +8,16 @@ import type { DeleteChatItemProps } from '@/global/core/chat/api.d';
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
     await connectToDatabase();
-    const { chatId, contentId, shareId, outLinkUid } = req.query as DeleteChatItemProps;
+    const { appId, chatId, contentId, shareId, outLinkUid } = req.query as DeleteChatItemProps;
+
+    if (!contentId || !chatId) {
+      return jsonRes(res);
+    }
 
     await autChatCrud({
       req,
       authToken: true,
+      appId,
       chatId,
       shareId,
       outLinkUid,

@@ -1,5 +1,5 @@
 import { FlowNodeTypeEnum } from '@fastgpt/global/core/module/node/constant';
-import { ModuleDataTypeEnum } from '@fastgpt/global/core/module/constants';
+import { ModuleIOValueTypeEnum } from '@fastgpt/global/core/module/constants';
 import { XYPosition } from 'reactflow';
 import { AppModuleItemTypeEnum, ModulesInputItemTypeEnum } from '../constants/app';
 import { AppTypeEnum } from '@fastgpt/global/core/app/constants';
@@ -59,6 +59,8 @@ export type AppLogsListItemType = {
   time: Date;
   title: string;
   messageCount: number;
-  feedbackCount: number;
+  userGoodFeedbackCount: number;
+  userBadFeedbackCount: number;
+  customFeedbacksCount: number;
   markCount: number;
 };

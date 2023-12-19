@@ -19,7 +19,10 @@ import {
 } from '@fastgpt/global/core/ai/model';
 import { SimpleModeTemplate_FastGPT_Universal } from '@/global/core/app/constants';
 import { getSimpleTemplatesFromPlus } from '@/service/core/app/utils';
-import { PluginTypeEnum } from '@fastgpt/global/core/plugin/constants';
+import { PluginSourceEnum } from '@fastgpt/global/core/plugin/constants';
+import { getFastGPTFeConfig } from '@fastgpt/service/common/system/config/controller';
+import { connectToDatabase } from '@/service/mongo';
+import { PluginTemplateType } from '@fastgpt/global/core/plugin/type';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   await getInitConfig();
@@ -67,13 +70,24 @@ const defaultFeConfigs: FeConfigsType = {
 export async function getInitConfig() {
   try {
     if (global.feConfigs) return;
+    await connectToDatabase();
     initGlobal();
 
     const filename =
       process.env.NODE_ENV === 'development' ? 'data/config.local.json' : '/app/data/config.json';
     const res = JSON.parse(readFileSync(filename, 'utf-8')) as ConfigFileType;
 
-    setDefaultData(res);
+    // get config from database
+    const dbFeConfig = await getFastGPTFeConfig();
+    const concatConfig: ConfigFileType = {
+      ...res,
+      FeConfig: {
+        ...res.FeConfig,
+        ...dbFeConfig
+      }
+    };
+
+    setDefaultData(concatConfig);
   } catch (error) {
     setDefaultData();
     console.log('get init config error, set default', error);
@@ -83,6 +97,23 @@ export async function getInitConfig() {
   getSystemVersion();
   getModelPrice();
   getSystemPlugin();
+
+  console.log({
+    FeConfig: global.feConfigs,
+    SystemParams: global.systemEnv,
+    ChatModels: global.chatModels,
+    QAModels: global.qaModels,
+    CQModels: global.cqModels,
+    ExtractModels: global.extractModels,
+    QGModels: global.qgModels,
+    VectorModels: global.vectorModels,
+    ReRankModels: global.reRankModels,
+    AudioSpeechModels: global.reRankModels,
+    WhisperModel: global.whisperModel,
+    price: global.priceMd,
+    simpleModeTemplates: global.simpleModeTemplates,
+    communityPlugins: global.communityPlugins
+  });
 }
 
 export function initGlobal() {
@@ -125,8 +156,6 @@ export function setDefaultData(res?: ConfigFileType) {
   global.whisperModel = res?.WhisperModel || defaultWhisperModel;
 
   global.priceMd = '';
-
-  console.log(res);
 }
 
 export function getSystemVersion() {
@@ -173,7 +202,6 @@ ${global.audioSpeechModels
   .join('\n')}
 ${`| 语音输入-${global.whisperModel.name} | ${global.whisperModel.price}/分钟 |`}
 `;
-  console.log(global.priceMd);
 }
 
 async function getSimpleModeTemplates() {
@@ -209,8 +237,6 @@ async function getSimpleModeTemplates() {
   } catch (error) {
     global.simpleModeTemplates = [SimpleModeTemplate_FastGPT_Universal];
   }
-  console.log('simple mode templates: ');
-  console.log(global.simpleModeTemplates);
 }
 
 function getSystemPlugin() {
@@ -226,16 +252,14 @@ function getSystemPlugin() {
   const filterFiles = files.filter((item) => item.endsWith('.json'));
 
   // read json file
-  const fileTemplates = filterFiles.map((item) => {
-    const content = readFileSync(`${basePath}/${item}`, 'utf-8');
+  const fileTemplates: PluginTemplateType[] = filterFiles.map((filename) => {
+    const content = readFileSync(`${basePath}/${filename}`, 'utf-8');
     return {
-      id: `${PluginTypeEnum.community}-${item.replace('.json', '')}`,
-      type: PluginTypeEnum.community,
-      ...JSON.parse(content)
+      ...JSON.parse(content),
+      id: `${PluginSourceEnum.community}-${filename.replace('.json', '')}`,
+      source: PluginSourceEnum.community
     };
   });
 
   global.communityPlugins = fileTemplates;
-  console.log('community plugins: ');
-  console.log(fileTemplates);
 }

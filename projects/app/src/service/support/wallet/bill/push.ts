@@ -2,13 +2,14 @@ import { BillSourceEnum, PRICE_SCALE } from '@fastgpt/global/support/wallet/bill
 import { getAudioSpeechModel, getQAModel } from '@/service/core/ai/model';
 import type { ChatHistoryItemResType } from '@fastgpt/global/core/chat/type.d';
 import { formatPrice } from '@fastgpt/global/support/wallet/bill/tools';
-import { addLog } from '@fastgpt/service/common/mongo/controller';
+import { addLog } from '@fastgpt/service/common/system/log';
 import type { ConcatBillProps, CreateBillProps } from '@fastgpt/global/support/wallet/bill/api.d';
 import { defaultQGModels } from '@fastgpt/global/core/ai/model';
 import { POST } from '@fastgpt/service/common/api/plusRequest';
+import { PostReRankProps } from '@fastgpt/global/core/ai/api';
 
 export function createBill(data: CreateBillProps) {
-  if (!global.systemEnv.pluginBaseUrl) return;
+  if (!global.systemEnv?.pluginBaseUrl) return;
   if (data.total === 0) {
     addLog.info('0 Bill', data);
   }
@@ -17,7 +18,7 @@ export function createBill(data: CreateBillProps) {
   } catch (error) {}
 }
 export function concatBill(data: ConcatBillProps) {
-  if (!global.systemEnv.pluginBaseUrl) return;
+  if (!global.systemEnv?.pluginBaseUrl) return;
   if (data.total === 0) {
     addLog.info('0 Bill', data);
   }
@@ -247,16 +248,21 @@ export function pushWhisperBill({
 export function pushReRankBill({
   teamId,
   tmbId,
-  source
+  source,
+  inputs
 }: {
   teamId: string;
   tmbId: string;
   source: `${BillSourceEnum}`;
+  inputs: PostReRankProps['inputs'];
 }) {
   const model = global.reRankModels[0];
   if (!model) return { total: 0 };
 
-  const total = model.price * PRICE_SCALE;
+  const textLength = inputs.reduce((sum, item) => sum + item.text.length, 0);
+  const ratio = Math.ceil(textLength / 1000);
+
+  const total = model.price * PRICE_SCALE * ratio;
   const name = 'wallet.bill.ReRank';
 
   createBill({

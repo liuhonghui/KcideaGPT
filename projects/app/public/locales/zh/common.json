@@ -22,7 +22,6 @@
     "Chat Logs Tips": "日志会记录该应用的在线、分享和 API(需填写 chatId) 对话记录",
     "Chat logs": "对话日志",
     "Confirm Del App Tip": "确认删除该应用及其所有聊天记录？",
-    "Confirm Save App Tip": "该应用可能为高级编排模式，保存后将会覆盖高级编排配置，请确认！",
     "Connection is invalid": "连接无效",
     "Connection type is different": "连接的类型不一致",
     "Copy Module Config": "复制配置",
@@ -52,7 +51,7 @@
       "My Modules": "",
       "No Modules": "还没有模块~",
       "System Module": "系统模块",
-      "type": "\"{{type}}\"类型\n{{example}}"
+      "type": "\"{{type}}\"类型\n{{description}}"
     },
     "modules": {
       "Title is required": "模块名不能为空"
@@ -65,7 +64,6 @@
     "Confirm to clear share chat history": "确认删除所有聊天记录？",
     "Converting to text": "正在转换为文本...",
     "Exit Chat": "退出聊天",
-    "Feedback Close": "关闭反馈",
     "Feedback Failed": "提交反馈异常",
     "Feedback Mark": "标注",
     "Feedback Modal": "结果反馈",
@@ -81,7 +79,6 @@
     "Question Guide Tips": "猜你想问",
     "Quote": "引用",
     "Read Mark Description": "查看标注功能介绍",
-    "Read User Feedback": "查看用户反馈",
     "Select Mark Kb": "选择知识库",
     "Select Mark Kb Desc": "选择一个知识库存储预期答案",
     "You need to a chat app": "你需要创建一个应用",
@@ -90,32 +87,6 @@
       "online": "在线使用",
       "share": "外部链接调用",
       "test": "测试"
-    },
-    "response": {
-      "module cq": "问题分类列表",
-      "module cq result": "分类结果",
-      "module extract description": "提取要求描述",
-      "module extract result": "提取结果",
-      "module historyPreview": "完整记录",
-      "module http body": "请求体",
-      "module http result": "响应体",
-      "module http url": "请求地址",
-      "module limit": "单次搜索上限",
-      "module maxToken": "最大 Tokens",
-      "module model": "模型",
-      "module name": "模型名",
-      "module price": "计费",
-      "module query": "问题/检索词",
-      "module question": "问题",
-      "module quoteList": "引用内容",
-      "module runningTime": "运行时长",
-      "module search query": "检索词",
-      "module search response": "搜索结果",
-      "module similarity": "相似度",
-      "module temperature": "温度",
-      "module time": "运行时长",
-      "module tokens": "Tokens",
-      "plugin output": "插件输出值"
     },
     "retry": "重新生成"
   },
@@ -201,6 +172,9 @@
     "confirm": {
       "Common Tip": "操作确认"
     },
+    "course": {
+      "Read Course": "查看教程"
+    },
     "empty": {
       "Common Tip": "没有什么数据噢~"
     },
@@ -234,6 +208,15 @@
     },
     "speech": {
       "error tip": "语音转文字失败"
+    },
+    "system": {
+      "Help Chatbot": "机器人助手",
+      "Use Helper": "使用帮助"
+    },
+    "ui": {
+      "textarea": {
+        "Magnifying": "放大"
+      }
     }
   },
   "core": {
@@ -257,6 +240,34 @@
       "TTS Tip": "开启后，每次对话后可使用语音播放功能。使用该功能可能产生额外费用。",
       "Welcome Text": "对话开场白",
       "create app": "创建属于你的 AI 应用",
+      "edit": {
+        "Confirm Save App Tip": "该应用可能为高级编排模式，保存后将会覆盖高级编排配置，请确认！",
+        "Out Ad Edit": "您即将退出高级编排页面，请确认",
+        "Prompt Editor": "提示词编辑",
+        "Save and out": "保存并退出",
+        "UnSave": "不保存"
+      },
+      "feedback": {
+        "Custom feedback": "自定义反馈",
+        "close custom feedback": "关闭反馈"
+      },
+      "logs": {
+        "Source And Time": "来源 & 时间"
+      },
+      "outLink": {
+        "Can Drag": "图标可拖拽",
+        "Default open": "默认打开",
+        "Iframe block title": "复制下面 Iframe 加入到你的网站中",
+        "Link block title": "将下面链接复制到浏览器打开",
+        "Script Close Icon": "关闭图标",
+        "Script Icon": "图标",
+        "Script Open Icon": "打开图标",
+        "Script block title": "将下面代码加入到你的网站中",
+        "Select Mode": "开始使用",
+        "Select Using Way": "选择使用方式",
+        "Show History": "展示历史对话",
+        "Web Link": "网络链接"
+      },
       "setting": "应用信息设置",
       "simple": {
         "mode template select": "简易模板"
@@ -283,10 +294,53 @@
       "Speaking": "我在听，请说...",
       "Stop Speak": "停止录音",
       "Type a message": "输入问题",
+      "error": {
+        "Messages empty": "接口内容为空，可能文本超长了~"
+      },
+      "feedback": {
+        "Close User Good Feedback": "",
+        "Close User Like": "用户表示赞同\n点击关闭该标记",
+        "Feedback Close": "关闭反馈",
+        "No Content": "用户没有填写具体反馈内容",
+        "Read User dislike": "用户表示反对\n点击查看内容"
+      },
+      "markdown": {
+        "Edit Question": "编辑问题",
+        "Quick Question": "点我立即提问",
+        "Send Question": "发送问题"
+      },
       "quote": {
         "Quote Tip": "此处仅显示实际引用内容，若数据有更新，此处不会实时更新",
         "Read Quote": "查看引用",
         "Read Source": "查看来源"
+      },
+      "response": {
+        "context total length": "上下文总长度",
+        "module cq": "问题分类列表",
+        "module cq result": "分类结果",
+        "module extract description": "提取要求描述",
+        "module extract result": "提取结果",
+        "module historyPreview": "完整记录",
+        "module http body": "请求体",
+        "module http result": "响应体",
+        "module http url": "请求地址",
+        "module limit": "单次搜索上限",
+        "module maxToken": "最大 Tokens",
+        "module model": "模型",
+        "module name": "模型名",
+        "module price": "计费",
+        "module query": "问题/检索词",
+        "module question": "问题",
+        "module quoteList": "引用内容",
+        "module runningTime": "运行时长",
+        "module search query": "检索词",
+        "module search response": "搜索结果",
+        "module similarity": "相似度",
+        "module temperature": "温度",
+        "module time": "运行时长",
+        "module tokens": "Tokens",
+        "plugin output": "插件输出值",
+        "text output": "文本输出"
       },
       "tts": {
         "Stop Speech": "停止"
@@ -313,7 +367,6 @@
       "Name": "知识库名称",
       "Quote Length": "引用内容长度",
       "Read Dataset": "查看知识库详情",
-      "Search Top K": "单次搜索数量",
       "Set Empty Result Tip": ",未搜索到内容时回复指定内容",
       "Set Website Config": "开始配置网站信息",
       "Similarity": "相关度",
@@ -372,7 +425,13 @@
         "id": "数据ID"
       },
       "error": {
-        "Start Sync Failed": "开始同步失败"
+        "Start Sync Failed": "开始同步失败",
+        "unAuthDataset": "无权操作该知识库",
+        "unAuthDatasetCollection": "无权操作该数据集",
+        "unAuthDatasetData": "无权操作该数据",
+        "unAuthDatasetFile": "无权操作该文件",
+        "unCreateCollection": "无权操作该数据",
+        "unLinkCollection": "不是网络链接集合"
       },
       "file": "文件",
       "folder": "目录",
@@ -403,8 +462,11 @@
       },
       "link": "链接",
       "search": {
+        "Dataset Search Params": "搜索参数",
         "Empty result response": "空搜索回复",
         "Empty result response Tips": "若填写该内容，没有搜索到合适内容时，将直接回复填写的内容。",
+        "Max Tokens": "引用上限",
+        "Max Tokens Tips": "单次搜索最大的 Tokens 数量，中文约1字=1.7Tokens，英文约1字=1Tokens",
         "Min Similarity": "最低相关度",
         "Min Similarity Tips": "不同索引模型的相关度有区别，请通过搜索测试来选择合适的数值，使用 ReRank 时，相关度可能会很低。",
         "Params Setting": "搜索参数设置",
@@ -446,6 +508,7 @@
         "Confirm Create Tips": "确认同步该站点，同步任务将随后开启，请确认！",
         "Confirm Update Tips": "确认更新站点配置？会立即按新的配置开始同步，请确认！",
         "Selector": "选择器",
+        "Selector Course": "选择器使用教程",
         "Start Sync": "开始同步",
         "UnValid Website Tip": "您的站点可能非静态站点，无法同步"
       }
@@ -460,14 +523,42 @@
       "Plugin output must connect": "自定义输出必须全部连接",
       "Variable": "参数变量",
       "Variable Setting": "变量设置",
+      "edit": {
+        "Field Already Exist": "key 重复",
+        "Field Edit": "字段编辑"
+      },
+      "extract": {
+        "Enum Description": "列举出该字段可能的值，每行一个",
+        "Enum Value": "枚举值",
+        "Field Description Placeholder": "姓名/年龄/sql语句……",
+        "Field Setting Title": "提取字段配置"
+      },
       "input": {
+        "Add Input": "添加入参",
+        "Input Number": "入参: {{length}}",
+        "description": {
+          "Http Request Header": "自定义请求头，请严格填入JSON字符串。\n1. 确保最后一个属性没有逗号\n2. 确保 key 包含双引号\n例如: {\"Authorization\":\"Bearer xxx\"}",
+          "Http Request Url": "新的HTTP请求地址。如果出现两个“请求地址”，可以删除该模块重新加入，会拉取最新的模块配置。",
+          "TFSwitch textarea": "允许定义一些字符串来实现 false 匹配，每行一个，支持正则表达式。",
+          "anyInput": "可传入任意内容",
+          "dynamic input": "接收用户动态添加的参数，会在运行时将这些参数平铺传入",
+          "textEditor textarea": "可以通过 {{key}} 的方式引用传入的变量。变量仅支持字符串或数字。"
+        },
         "label": {
+          "Http Request Header": "请求头",
+          "Http Request Method": "请求方式",
+          "Http Request Url": "请求地址",
+          "TFSwitch textarea": "自定义 False 匹配规则",
+          "anyInput": "任意内容输入",
           "chat history": "聊天记录",
           "switch": "触发器",
+          "textEditor textarea": "文本编辑",
           "user question": "用户问题"
         }
       },
       "inputType": {
+        "chat history": "历史记录",
+        "dynamicTargetInput": "动态外部数据",
         "input": "输入框",
         "selectApp": "应用选择",
         "selectChatModel": "对话模型选择",
@@ -477,18 +568,34 @@
         "textarea": "段落输入"
       },
       "output": {
+        "Add Output": "添加出参",
+        "Output Number": "出参: {{length}}",
         "description": {
           "running done": "模块调用结束时触发"
         },
         "label": {
-          "running done": "模块调用结束"
+          "result false": "False",
+          "result true": "True",
+          "running done": "模块调用结束",
+          "text": "文本输出"
         }
+      },
+      "template": {
+        "TFSwitch": "判断器",
+        "TFSwitch intro": "根据传入的内容进行 True False 输出。默认情况下，当传入的内容为 false, undefined, null, 0, none 时，会输出 false。你也可以增加一些自定义的字符串来补充输出 false 的内容。",
+        "UnKnow Module": "未知模块",
+        "textEditor": "文本加工",
+        "textEditor intro": "可对固定或传入的文本进行加工后输出"
+      },
+      "textEditor": {
+        "Text Edit": "文本加工"
       },
       "valueType": {
         "any": "任意",
         "boolean": "布尔",
         "chatHistory": "聊天记录",
         "datasetQuote": "引用内容",
+        "dynamicTargetInput": "动态字段输入",
         "number": "数字",
         "selectApp": "应用选择",
         "selectDataset": "知识库选择",
@@ -517,7 +624,6 @@
     }
   },
   "dataset": {
-    "Chunk Length": "数据总量",
     "Confirm move the folder": "确认移动到该目录",
     "Confirm to delete the data": "确认删除该数据？",
     "Confirm to delete the file": "确认删除该文件及其所有数据？",
@@ -585,13 +691,10 @@
     "import csv tip": "请确保CSV为UTF-8格式，否则会乱码",
     "test": {
       "noResult": "搜索结果为空"
-    },
-    "website": {
-      "Base Url": "",
-      "Selector": ""
     }
   },
   "error": {
+    "fileNotFound": "文件找不到了~",
     "team": {
       "overSize": "团队成员超出上限"
     }
@@ -657,6 +760,10 @@
     "Visual AI orchestration": "可视化 AI 编排",
     "Why FastGPT": "为什么选择 {{title}}",
     "desc": "基于 LLM 大模型的 AI 知识库问答平台",
+    "navbar": {
+      "Use guidance": "使用引导",
+      "chatbot": "问答机器人"
+    },
     "slogan": "让 AI 更懂你的知识"
   },
   "module": {
